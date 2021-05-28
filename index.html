@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style media="screen">
+		.red {
+			color: red
+		}
+
+		.green {
+			color: green
+		}
+	</style>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+		integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+
+<body>
+	<div id="app">
+		<h1 v-show="status">{{message}}</h1>
+		<h2>{{varTesteBool}}</h2>
+		<h3>{{msgPadrao}}</h3>
+		<br />
+		<div v-if="cat.name == 'Plus'">
+			<p>Id: {{cat.id}}</p>
+			<p>Nome: {{cat.name}}</p>
+			<p>Especie: {{cat.especie}}</p>
+		</div>
+		<div v-else>Nenhum usuário com esse nome!</div>
+		<br />
+		<ul>
+			<li v-for="item in listaLinguagens">
+				{{item.name}}
+			</li>
+		</ul>
+		<br />
+
+		<div>
+			<label>Nome</label>
+			<input type="text" v-model="pessoa.name">
+		</div>
+		<div>
+			<label for="">Telefone</label>
+			<input type="text" v-model="pessoa.telefone">
+		</div>
+		<div>
+			<label for="">Deseja receber as novidade</label>
+			<input type="radio" value="true" v-model="pessoa.novidade"> Sim
+			<input type="radio" value="false" v-model="pessoa.novidade"> Não
+		</div>
+		<div>
+			<label for="">Interesses</label><br />
+			<input type="checkbox" value="Futebol" v-model="pessoa.interesses"> Futebol <br />
+			<input type="checkbox" value="Formula 1" v-model="pessoa.interesses"> Formola 1 <br />
+			<input type="checkbox" value="Corrida" v-model="pessoa.interesses"> Corrida <br />
+		</div>
+		<div>
+			<label>Status</label>
+			<select v-model="pessoa.status">
+				<option v-for="item in listaStatus">{{item.descricao}}</option>
+			</select>
+		</div>
+		<br />
+		<div>
+			<label>Linguagens</label>
+			<select v-model="pessoa.linguagens">
+				<option v-for="item in listaLinguagens">{{item.name | truncateUp('7') }}</option>
+			</select>
+		</div>
+		<br />
+		<h1>Formulário preenchido</h1>
+		Nome: {{pessoa.name | toUpperCase }}<br />
+		Telefone: {{pessoa.telefone | truncateUp(3)}}<br />
+		Interesses: {{pessoa.interesses}}<br />
+		Novidade: {{pessoa.novidade}}<br />
+		Status: {{pessoa.status}}<br />
+		Linguagens: {{pessoa.linguagens}}<br />
+		<br />
+		<p :class="classHtml">Elson Júnior Nunes de Araújo</p>
+		<!-- <img v-bind:src="imagem" alt="'Vue.js is awesome!'"> -->
+
+		<button type="button" class="btn btn-primary btn-sm" v-on:click="enviar()">Enviar</button>
+		<button type="button" class="btn" v-bind:class="btnClassLimpar" v-bind:style="btnStyleLimpar">Limpar</button>
+
+
+	</div>
+	<!-- production version, optimized for size and speed -->
+	<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+	<script>
+		var app = new Vue({
+			el: '#app',
+			data: {
+				classHtml: 'green',
+				imagem: 'https://redwerk.com/wp-content/uploads/2019/11/cover_Vue.png',
+				status: false,
+				message: 'Hello Universe!',
+				varTesteBool: "elson",
+				msgPadrao: this.varTesteBool ?? "Mensagem padrão!",
+				name: 'Alice',
+				cat: {
+					id: 1,
+					name: 'Dinah',
+					especie: "Mamífero"
+				},
+				listaLinguagens: [
+					{ name: "JavaScript" },
+					{ name: "Java" },
+					{ name: "PHP" },
+					{ name: "Python" },
+					{ name: "Kotlin" }
+				],
+				listaStatus: [
+					{ descricao: 'Solteiro' },
+					{ descricao: 'Casado' },
+					{ descricao: 'Divorciado' },
+				],
+				btnStyleLimpar: [
+					{ 'font-size': '30px' },
+					{ 'text-transform': 'uppercase' }
+				],
+				btnClassLimpar: {
+					'btn-danger': true,
+					'btn-lg': true
+				},
+				pessoa: {
+					name: '',
+					telefone: '',
+					interesses: [],
+					novidades: '',
+					status: '',
+					linguagens: ''
+				}
+			},
+			methods: {
+				enviar() {
+					alert('Enviado!');
+				}
+			},
+			filters: {
+				toUpperCase(str) {
+					return str.toUpperCase();
+				},
+				truncateUp(str, max) {
+					let output;
+					str != '' ? output = str.substring(0, max) : output = 'Não contém'
+					
+					if(str.length > max) {
+						output = str.substring(0, max) + '...';
+					}
+					return output;
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>
